@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+
+  <model name="eatery">
+    <static>true</static>
+    <link name="eatery_link">
+    
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://eatery/meshes/model.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+
+      <visual name="eatery">
+      <cast_shadows>true</cast_shadows>
+        <geometry>
+          <mesh>
+            <uri>model://eatery/meshes/model.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+
+</sdf>

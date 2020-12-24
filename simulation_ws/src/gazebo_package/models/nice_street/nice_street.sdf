@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+
+  <model name="nice_street">
+    <static>true</static>
+    <link name="nice_street_link">
+    
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://nice_street/meshes/model.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+
+      <visual name="nice_street">
+      <cast_shadows>true</cast_shadows>
+        <geometry>
+          <mesh>
+            <uri>model://nice_street/meshes/model.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+
+</sdf>

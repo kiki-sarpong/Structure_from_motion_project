@@ -1,0 +1,2 @@
+calibration_gazebo:camera_package:gazebo_package
+-DCATKIN_DEVEL_PREFIX=/home/user/simulation_ws/devel -DCMAKE_INSTALL_PREFIX=/home/user/simulation_ws/install -G Unix Makefiles

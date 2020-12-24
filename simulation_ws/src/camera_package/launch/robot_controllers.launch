@@ -1,0 +1,15 @@
+<launch>
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find camera_package)/config/robot_control.yaml" command="load"/>
+
+  <!-- load the controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" ns="/work_env_cam" args="wheel_1_position_controller wheel_2_position_controller wheel_3_position_controller wheel_4_position_controller joint_state_controller --shutdown-timeout 3"/>
+
+  <!-- convert joint states to TF transforms for rviz, etc -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+    respawn="false" output="screen">
+
+    <remap from="/joint_states" to="/work_env_cam/joint_states" />
+  </node>
+</launch>

@@ -1,0 +1,8 @@
+prefix=/home/user/simulation_ws/install
+
+Name: camera_package
+Description: Description of camera_package
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/user/simulation_ws/install/lib 
+Requires: 

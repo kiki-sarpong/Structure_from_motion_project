@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <include file="$(find camera_package)/launch/spawn_big_robot.launch"/>
+    <include file="$(find camera_package)/launch/robot_controllers.launch"/>
+    <include file="$(find camera_package)/launch/pcl_assembler.launch"/>
+    <node pkg="cam_node" type="complete_sfm.py" name="camera_package"  output="screen">
+</launch>

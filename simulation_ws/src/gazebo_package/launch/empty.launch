@@ -1,0 +1,12 @@
+<launch>
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <!-- <arg name="verbose" value="true"/> -->
+        <!--arg name="debug" value="true"/-->
+        <arg name="world_name" value="$(find gazebo_package)/worlds/empty.world"/> 
+    </include>
+    <include file="$(find camera_package)/launch/empty.launch"/>
+
+     <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop">
+    <!-- <remap from="cmd_vel" to="work_env_cam/cmd_vel"/> -->
+    </node>
+</launch>

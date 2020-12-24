@@ -1,0 +1,280 @@
+<?xml version="1.0" ?>
+<robot name="work_env_cam" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+
+<!-- wheel plugin  -->
+<gazebo>
+  <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
+    <updateRate>100.0</updateRate>
+    <robotNamespace>/work_env_cam</robotNamespace>
+    <leftFrontJoint>wheel_1_joint</leftFrontJoint>
+    <rightFrontJoint>wheel_2_joint</rightFrontJoint>
+    <leftRearJoint>wheel_3_joint</leftRearJoint>
+    <rightRearJoint>wheel_4_joint</rightRearJoint>
+    <wheelSeparation>3</wheelSeparation>
+    <wheelDiameter>1.2</wheelDiameter>
+    <robotBaseFrame>base_link</robotBaseFrame>
+    <torque>20</torque>
+    <commandTopic>/work_env_cam/cmd_vel</commandTopic>
+    <odometryTopic>/work_env_cam/odom</odometryTopic>
+    <odometryFrame>odom</odometryFrame>
+    <broadcastTF>1</broadcastTF>
+  </plugin>
+</gazebo>
+
+
+
+
+
+
+
+ <!-- Gazebo Camera plugin 1 -->               BLUE
+    <gazebo reference="cam_top_left">           camera top left
+        <sensor type="wideanglecamera" name="camera1">
+            <update_rate>30.0</update_rate>
+            <camera name="head">
+            <pose>0 0 0 1.57 -1.57 0</pose> 
+                <horizontal_fov>3.1415</horizontal_fov> 180 degrees
+                <image>
+                    <width>1080</width>
+                    <height>720</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.01</near>
+                    <far>100</far>
+                    the near and far clips are simulation-specific parameters that give an upper and lower bound to the distance in
+                     which the cameras can see objects in the simulation. This is specified in the camera's optometry frame.
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <!-- Noise is sampled independently per pixel on each frame.
+                        That pixel's noise value is added to each of its color
+                        channels, which at that point lie in the range [0,1]. -->
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            <lens>
+                <type>stereographic</type>
+                <scale_to_hfov>true</scale_to_hfov>
+                <cutoff_angle>1.5707</cutoff_angle>
+                <env_texture_size>512</env_texture_size>
+           </lens>
+        </camera>
+            <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>work_env_cam/camera1</cameraName> change the name to robot_name..camera_name
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>cam_top_left</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+
+
+<!-- Gazebo Camera plugin 2 -->               RED
+    <gazebo reference="cam_top_right">           camera top right
+        <sensor type="wideanglecamera" name="camera2">
+            <update_rate>30.0</update_rate>
+            <camera name="head">
+            <pose>0 0 0 1.57 -1.57 0</pose>  45  degrees
+                <horizontal_fov>3.1415</horizontal_fov> 180 degrees
+                <image>
+                    <width>1080</width>
+                    <height>720</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.01</near>
+                    <far>100</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            <lens>
+                <type>stereographic</type>
+                <scale_to_hfov>true</scale_to_hfov>
+                <cutoff_angle>1.5707</cutoff_angle>
+                <env_texture_size>512</env_texture_size>
+           </lens>
+        </camera>
+            <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>work_env_cam/camera2</cameraName> change the name to robot_name..camera_name
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>cam_top_right</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+<!-- Gazebo Camera plugin 3 -->               YELLOW
+    <gazebo reference="cam_right">           camera tight
+        <sensor type="wideanglecamera" name="camera3">
+            <update_rate>30.0</update_rate>
+            <camera name="head">
+            <pose>0 0 0 1.57 -1.57 0</pose>   
+                <horizontal_fov>3.1415</horizontal_fov> 180 degrees
+                <image>
+                    <width>1080</width>
+                    <height>720</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.01</near>
+                    <far>100</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            <lens>
+                <type>stereographic</type>
+                <scale_to_hfov>true</scale_to_hfov>
+                <cutoff_angle>1.5707</cutoff_angle>
+                <env_texture_size>512</env_texture_size>
+           </lens>
+        </camera>
+            <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>work_env_cam/camera3</cameraName> change the name to robot_name..camera_name
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>cam_right</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+
+
+<!-- Gazebo Camera plugin 4 -->               GREEN
+    <gazebo reference="cam_back_right">           camera back right
+        <sensor type="wideanglecamera" name="camera4">
+            <update_rate>30.0</update_rate>
+            <camera name="head">
+             <pose>0 0 0 1.57 -1.57 0 </pose>    
+                <horizontal_fov>3.1415</horizontal_fov> 180 degrees
+                <image>
+                    <width>1080</width>
+                    <height>720</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.01</near>
+                    <far>100</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            <lens>
+                <type>stereographic</type>
+                <scale_to_hfov>true</scale_to_hfov>
+                <cutoff_angle>1.5707</cutoff_angle>
+                <env_texture_size>512</env_texture_size>
+           </lens>
+        </camera>
+            <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>work_env_cam/camera4</cameraName> change the name to robot_name..camera_name
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>cam_back_right</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+
+<!-- Gazebo Camera plugin 5 -->               WHITE
+    <gazebo reference="cam_back_left">           camera back left
+        <sensor type="wideanglecamera" name="camera5">
+            <update_rate>30.0</update_rate>
+            <camera name="head">
+             <pose>0 0 0 1.57 -1.57 0</pose>        
+                <horizontal_fov>3.1415</horizontal_fov> 180 degrees
+                <image>
+                    <width>1080</width>
+                    <height>720</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.01</near>
+                    <far>100</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            <lens>
+                <type>stereographic</type>
+                <scale_to_hfov>true</scale_to_hfov>
+                <cutoff_angle>1.5707</cutoff_angle>
+                <env_texture_size>512</env_texture_size>
+           </lens>
+        </camera>
+            <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>work_env_cam/camera5</cameraName> change the name to robot_name..camera_name
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>cam_back_left</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+
+
+<!-- Gazebo Camera plugin 6 -->               ORANGE             
+    <gazebo reference="cam_left">           camera left
+        <sensor type="wideanglecamera" name="camera6">
+            <update_rate>30.0</update_rate>
+            <camera name="head">
+              <pose>0 0 0 1.57 -1.57 0</pose>       
+                <horizontal_fov>3.1415</horizontal_fov> 180 degrees
+                <image>
+                    <width>1080</width>
+                    <height>720</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.01</near>
+                    <far>100</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            <lens>
+                <type>stereographic</type>
+                <scale_to_hfov>true</scale_to_hfov>
+                <cutoff_angle>1.5707</cutoff_angle>
+                <env_texture_size>512</env_texture_size>
+           </lens>
+        </camera>
+            <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>work_env_cam/camera6</cameraName> change the name to robot_name..camera_name
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>cam_left</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+
+
+</robot>
+

@@ -1,0 +1,454 @@
+<?xml version="1.0" ?>
+<robot name="eatery_cam" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+
+    <!-- Specify material colors here -->
+    <material name="blue">
+        <color rgba="0 0 0.8 0.8"/>
+    </material>
+    <material name="red">
+        <color rgba="0.8 0 0 1"/>
+    </material>
+    <material name="grey">
+        <color rgba="0.75 0.75 0.75 1"/>
+    </material>
+
+    <!-- Gazebo plugin initialization -->
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/eatery_cam</robotNamespace> This robot name is the same as robot name at the top
+        </plugin>
+    </gazebo>
+
+
+     <!-- ////////////////////////// === BASE LINK ==== //////////////////////////////////// -->
+   <!-- Main base link -->
+    <link name="base_link">
+        <visual>
+        <origin xyz="0 0 11" rpy="0 0 0"/>  created at 31 meters above just to have space to work with
+        <geometry>
+            <box size="0.4 0.4 0.2"/>
+        </geometry>
+        <material name = "blue"/>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 11" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.4 0.4 0.2"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="2.0" /> This camera was estimated from the mass(weight) of a logitech camera = 0.25kg
+            DONT FORGET THE ORIGIN VALUES
+            <origin xyz="0 0 11" rpy="0 0 0"/> Inertia was calculated from the inertial calculator program
+            <inertia ixx="0.05000000000000001" ixy="0" ixz="0" iyy="0.08000000000000002" iyz="0" izz="0.05000000000000001" />
+        </inertial>
+    </link>
+
+    This is for color and physical properties in Gazebo, color won't work with the material tag in gazebo
+    only for URDF coloring
+    <gazebo reference="base_link">
+        <mu1>10.0</mu1>
+        <mu2>10.0</mu2>
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+
+
+
+
+
+
+
+
+
+    <!-- ////////////////////////// === CAMERA LINKS ==== //////////////////////////////////// -->
+ Change camera size to make more visible 0.5 0.5 0.5...original = 0.07 0.07 0.07
+    <!-- Camera forward-->               camera_forward
+    <link name="camera_forward">
+        <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <box size="0.07 0.07 0.07"/>
+        </geometry>
+        </collision>
+
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <box size="0.07 0.07 0.07"/>
+        </geometry>
+        <material name="red"/>
+        </visual>
+
+        <inertial>
+            <mass value="0.25"/> This camera was estimated from the mass(weight) of a logitech camera = 0.25kg
+            <origin xyz="0 0 0" rpy="0 0 0"/> Inertia was calculated from the inertial calculator program
+            <inertia ixx="0.00020416666666666668" ixy="0" ixz="0" iyy="0.00020416666666666668" iyz="0" izz="0.00020416666666666668" />
+        </inertial>
+    </link>
+
+    <gazebo reference="camera_forward">
+        <mu1>10.0</mu1>
+        <mu2>10.0</mu2>
+        <material>Gazebo/Red</material>
+    </gazebo>
+
+    <!-- Camera backward-->
+    <link name="camera_backward">
+        <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <box size="0.07 0.07 0.07"/>
+        </geometry>
+        </collision>
+
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <box size="0.07 0.07 0.07"/>
+        </geometry>
+        <material name="red"/>
+        </visual>
+
+        <inertial>
+        <mass value="0.25" /> This camera was estimated from the mass(weight) of a logitech camera = 0.25kg
+        <origin xyz="0 0 0" rpy="0 0 0"/> Inertia was calculated from the inertial calculator program
+        <inertia ixx="0.00020416666666666668" ixy="0" ixz="0" iyy="0.00020416666666666668" iyz="0" izz="0.00020416666666666668" />
+        </inertial>
+    </link>
+
+    <gazebo reference="camera_backward">
+        <mu1>10.0</mu1>
+        <mu2>10.0</mu2>
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+
+
+    <!-- Camera Link 3-->
+    <link name="camera_right">
+        <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <box size="0.07 0.07 0.07"/>
+        </geometry>
+        </collision>
+
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <box size="0.07 0.07 0.07"/>
+        </geometry>
+        <material name="red"/>
+        </visual>
+
+        <inertial>
+        <mass value="0.25" /> This camera was estimated from the mass(weight) of a logitech camera = 0.25kg
+        <origin xyz="0 0 0" rpy="0 0 0"/> Inertia was calculated from the inertial calculator program
+        <inertia ixx="0.00020416666666666668" ixy="0" ixz="0" iyy="0.00020416666666666668" iyz="0" izz="0.00020416666666666668" />
+        </inertial>
+    </link>
+
+    <gazebo reference="camera_right">
+        <mu1>10.0</mu1>
+        <mu2>10.0</mu2>
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+    <!-- Camera left-->
+    <link name="camera_left">
+        <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <box size="0.07 0.07 0.07"/>
+        </geometry>
+        </collision>
+
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <box size="0.07 0.07 0.07"/>
+        </geometry>
+        <material name="red"/>
+        </visual>
+
+        <inertial>
+        <mass value="0.25" /> This camera was estimated from the mass(weight) of a logitech camera = 0.25kg
+        <origin xyz="0 0 0" rpy="0 0 0"/> Inertia was calculated from the inertial calculator program
+        <inertia ixx="0.00020416666666666668" ixy="0" ixz="0" iyy="0.00020416666666666668" iyz="0" izz="0.00020416666666666668" />
+        </inertial>
+    </link>
+
+    <gazebo reference="camera_left">
+        <mu1>10.0</mu1>
+        <mu2>10.0</mu2>
+        <material>Gazebo/Green</material>
+    </gazebo>
+
+
+
+
+        <!-- ////////////////////////// === Joints ==== //////////////////////////////////// -->
+  I can spawn all the camera links at origin 0 0 0  but I use the joints to move them to the positions I want them in.
+
+    <!-- joint = base_link to camera_link -->      camera forward
+    <joint name="camera_joint_forward" type="fixed">
+        <origin xyz="0.24    0     11" rpy="0 0 0"/>    
+        <parent link="base_link"/>
+        <child link="camera_forward"/>
+    </joint>
+
+    <!-- joint = base_link to camera_link -->       camera backward
+    <joint name="camera_joint_backward" type="fixed">
+        <origin xyz="-0.24    0     11" rpy="0 0 0"/> 
+        <parent link="base_link"/>
+        <child link="camera_backward"/>
+    </joint>
+ 
+     <!-- joint = base_link to camera_link -->       camera right
+    <joint name="camera_joint_right" type="fixed">
+        <origin xyz="0    -0.24    11" rpy="0 0 0"/> 
+        <parent link="base_link"/>
+        <child link="camera_right"/>
+    </joint>
+
+    <!-- joint = base_link to camera_link -->       camera left
+    <joint name="camera_joint_left" type="fixed">
+        <origin xyz="0     0.24    11" rpy="0 0 0"/> 
+        <parent link="base_link"/>
+        <child link="camera_left"/>
+    </joint>
+
+
+
+   camera turns on z axis
+ <!-- Gazebo Camera plugin 1 -->               
+    <gazebo reference="camera_forward">           camera forward
+        <sensor type="wideanglecamera" name="camera1">
+            <update_rate>30.0</update_rate>
+            <camera name="head">
+            <pose>0 0 0 0 0 0</pose>
+                <horizontal_fov>3.1415</horizontal_fov> 180 degrees
+                <image>
+                    <width>640</width>
+                    <height>720</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.01</near>
+                    <far>100</far>
+                    the near and far clips are simulation-specific parameters that give an upper and lower bound to the distance in
+                     which the cameras can see objects in the simulation. This is specified in the camera's optometry frame.
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <!-- Noise is sampled independently per pixel on each frame.
+                        That pixel's noise value is added to each of its color
+                        channels, which at that point lie in the range [0,1]. -->
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            <lens>
+                <type>stereographic</type>
+                <scale_to_hfov>true</scale_to_hfov>
+                <cutoff_angle>1.5707</cutoff_angle>
+                <env_texture_size>512</env_texture_size>
+           </lens>
+        </camera>
+
+            <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>eatery_cam/camera1</cameraName> change the name to robot_name..camera_name
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>camera_link</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+
+
+    <!-- Gazebo Camera plugin  2-->                
+     <gazebo reference="camera_backward">    camera backward
+        <sensor type="camera" name="camera2">
+            <update_rate>30.0</update_rate>
+            <camera name="head">
+            <pose>0 0 0 0 0 3.142</pose>   
+                <horizontal_fov>2.96706</horizontal_fov>
+                <image>
+                    <width>640</width>
+                    <height>720</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.02</near>
+                    <far>300</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <!-- Noise is sampled independently per pixel on each frame.
+                        That pixel's noise value is added to each of its color
+                        channels, which at that point lie in the range [0,1]. -->
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            </camera>
+            <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>eatery_cam/camera2</cameraName> 
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>camera_link</frameName>
+                <hackBaseline>0.07</hackBaseline>
+                <distortionK1>0.0</distortionK1>
+                <distortionK2>0.0</distortionK2>
+                <distortionK3>0.0</distortionK3>
+                <distortionT1>0.0</distortionT1>
+                <distortionT2>0.0</distortionT2>
+            </plugin>
+        </sensor>
+    </gazebo>
+    
+
+
+     <!-- Gazebo Camera plugin  3-->                    camera left
+     <gazebo reference="camera_right">
+        <sensor type="wideanglecamera" name="camera3">
+            <update_rate>30.0</update_rate>
+            <camera name="head">
+            <pose>0 0 0 0 0  -1.57</pose>    
+                <horizontal_fov>2.96706</horizontal_fov>
+                <image>
+                    <width>640</width>
+                    <height>720</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.02</near>
+                    <far>300</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <!-- Noise is sampled independently per pixel on each frame.
+                        That pixel's noise value is added to each of its color
+                        channels, which at that point lie in the range [0,1]. -->
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            </camera>
+            <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>eatery_cam/camera3</cameraName>  
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>camera_link</frameName>
+                <hackBaseline>0.07</hackBaseline>
+                <distortionK1>0.0</distortionK1>
+                <distortionK2>0.0</distortionK2>
+                <distortionK3>0.0</distortionK3>
+                <distortionT1>0.0</distortionT1>
+                <distortionT2>0.0</distortionT2>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+ <!-- Gazebo Camera plugin  4-->                    camera_right
+     <gazebo reference="camera_left">
+        <sensor type="wideanglecamera" name="camera4">
+            <update_rate>30.0</update_rate>
+            <camera name="head">
+            <pose>0 0 0 0 0 1.57</pose>    
+                <horizontal_fov>2.96706</horizontal_fov>
+                <image>
+                    <width>640</width>
+                    <height>720</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.02</near>
+                    <far>300</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <!-- Noise is sampled independently per pixel on each frame.
+                        That pixel's noise value is added to each of its color
+                        channels, which at that point lie in the range [0,1]. -->
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            </camera>
+            <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>eatery_cam/camera4</cameraName>  
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>camera_link</frameName>
+                <hackBaseline>0.07</hackBaseline>
+                <distortionK1>0.0</distortionK1>
+                <distortionK2>0.0</distortionK2>
+                <distortionK3>0.0</distortionK3>
+                <distortionT1>0.0</distortionT1>
+                <distortionT2>0.0</distortionT2>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+
+
+
+
+
+</robot>
+
+
+ <sensor name="camera" type="wideanglecamera">
+  <camera>
+    <horizontal_fov>6.283</horizontal_fov> 2.96706 =170 degrees
+    <image>
+      <width>320</width>
+      <height>240</height>
+    </image>
+    <clip>
+      <near>0.1</near>
+      <far>100</far>
+    </clip>
+    <!-- A new section named `lens`. -->
+    <lens>
+      <!-- type element is mandatory -->
+      <type>custom</type>
+      <!-- manually defined mapping function r = c1*f*fun(theta/c2 + c3) -->
+      <!-- More information here: https://en.wikipedia.org/wiki/Fisheye_lens#Mapping_function -->
+      <custom_function>
+        <c1>1.05</c1>
+        <!-- linear scaling -->
+        <c2>4</c2>
+        <!-- angle scaling -->
+        <f>1.0</f>
+        <!-- one more scaling parameter -->
+        <fun>tan</fun>
+        <!-- one of sin,tan,id -->
+      </custom_function>
+      <!-- if it is set to `true` your horizontal FOV will ramain as defined -->
+      <!-- othervise it depends on lens type and custom function, if there is one -->
+      <scale_to_hfov>true</scale_to_hfov>
+      <!-- clip everything that is outside of this angle -->
+      <cutoff_angle>3.1415</cutoff_angle>
+      <!-- resolution of the cubemap texture, the highter it is - the sharper is your image -->
+      <env_texture_size>512</env_texture_size>
+    </lens>
+    <always_on>1</always_on>
+    <update_rate>30</update_rate>
+  </camera>
+  <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+    <cameraName>camera1</cameraName>
+    <imageTopicName>image_raw</imageTopicName>
+    <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+    <frameName>camera_link</frameName>
+    <hackBaseline>0.07</hackBaseline>
+  </plugin>
+</sensor> 

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<sdf version="1.5">
+  <world name="default">
+        <include>  <!--Add a light source-->
+            <uri>model://sun</uri>
+        </include>
+
+        <include>  <!--Add a ground plane-->
+            <uri>model://ground_plane</uri>
+        </include>
+        <include>  <!--Add custom room model-->
+            <static>true</static>
+            <uri>model://city</uri>
+            <name> city </name>
+            <pose> 0 0 0 0 0 0 </pose>
+        </include>
+  </world>
+</sdf>

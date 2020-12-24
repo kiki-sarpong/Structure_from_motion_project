@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <include file="$(find camera_package)/launch/spawn_xacro.launch">
+        <arg name="x" value="0.0" />
+        <arg name="y" value="0.0" />
+        <arg name="z" value="0.2" />
+        <arg 
+        name="xacro_robot_file"
+        value="$(find camera_package)/urdf/big_work_env.xacro"
+        
+        />
+        <arg name="robot_name" value="work_env_cam" />
+    </include>
+</launch>

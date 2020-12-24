@@ -1,0 +1,6 @@
+<launch>
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find gazebo_package)/worlds/city.world"/> 
+    </include>
+    <!-- <include file="$(find camera_package)/launch/camera_xacro.launch"/> -->
+</launch>

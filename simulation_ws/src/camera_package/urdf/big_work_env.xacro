@@ -1,0 +1,580 @@
+<?xml version="1.0" ?>
+<robot name="work_env_cam" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+<xacro:include filename = "$(find camera_package)/urdf/big_work_env.plugins.xacro"/>
+
+<xacro:property name="base_z" value="0" />
+<xacro:property name="base_x" value="0" />
+<xacro:property name="base_y" value="0" />
+<xacro:property name="box_w" value="4" />
+<xacro:property name="box_h" value="7" />
+<xacro:property name="box_d" value="2.4" />
+
+<xacro:property name="w_rad" value="0.6" />
+<xacro:property name="w_len" value="0.3" />
+
+<xacro:property name="cam_box" value="0.07" />
+<xacro:property name="cam_rot" value="0.785398" /> 45 degrees
+<xacro:property name="cam_height_pos" value="0.25" /> this is a percentage...0.25*box z_height
+
+<xacro:property name="cam1_x" value="${base_x - box_w/2}" />
+<xacro:property name="cam1_y" value="${base_y + box_h/2}" />
+<xacro:property name="cam1_z" value="${box_d*cam_height_pos}" />
+
+<xacro:property name="cam2_x" value="${base_x + box_w/2}" />
+<xacro:property name="cam2_y" value="${base_y + box_h/2}" />
+<xacro:property name="cam2_z" value="${box_d*cam_height_pos}" />
+
+<xacro:property name="cam3_x" value="${base_x + box_w/2}" />
+<xacro:property name="cam3_y" value="${base_y}" />
+<xacro:property name="cam3_z" value="${box_d*cam_height_pos}" />
+
+<xacro:property name="cam4_x" value="${base_x + box_w/2}" />
+<xacro:property name="cam4_y" value="${base_y - box_h/2}" />
+<xacro:property name="cam4_z" value="${box_d*cam_height_pos}" />
+
+<xacro:property name="cam5_x" value="${base_x - box_w/2}" />
+<xacro:property name="cam5_y" value="${base_y - box_h/2}" />
+<xacro:property name="cam5_z" value="${box_d*cam_height_pos}" />
+
+<xacro:property name="cam6_x" value="${base_x - box_w/2}" />
+<xacro:property name="cam6_y" value="${base_y}" />
+<xacro:property name="cam6_z" value="${box_d*cam_height_pos}" />
+
+
+    <!-- Specify material colors here -->
+    <material name="blue">
+        <color rgba="0 0 0.8 0.8"/>
+    </material>
+    <material name="red">
+        <color rgba="0.8 0 0 1"/>
+    </material>
+    <material name="grey">
+        <color rgba="0.75 0.75 0.75 1"/>
+    </material>
+
+    <!-- Gazebo plugin initialization -->
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/work_env_cam</robotNamespace> This robot name is the same as robot name at the top
+        </plugin>
+    </gazebo>
+
+
+
+<!-- ////////////////////////// === WORLD LINK ==== //////////////////////////////////// -->
+    
+
+
+    <!-- <link name="world_link" /> -->
+
+     <!-- ////////////////////////// === BASE LINK ==== //////////////////////////////////// -->
+   <!-- Main base link -->
+    <link name="base_link">
+        <visual>
+            <origin xyz="${base_x} ${base_y} ${base_z}" rpy="0 0 0"/>  created at 31 meters above just to have space to work with
+                <geometry>
+                    <box size="${box_w} ${box_h} ${box_d}"/>
+                </geometry>
+            <material name = "blue"/>
+        </visual>
+
+        <collision>
+            <origin xyz="${base_x} ${base_y} ${base_z}" rpy="0 0 0"/>
+            <geometry>
+                <box size="${box_w} ${box_h} ${box_d}"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="2.0" /> 
+            DONT FORGET THE ORIGIN VALUES
+            <origin xyz="${base_x} ${base_y} ${base_z}" rpy="0 0 0"/> Inertia was calculated from the inertial calculator program
+            <inertia ixx="0.05000000000000001" ixy="0" ixz="0" iyy="0.08000000000000002" iyz="0" izz="0.05000000000000001" />
+        </inertial>
+    </link>
+
+    This is for color and physical properties in Gazebo, color won't work with the material tag in gazebo
+    only for URDF coloring
+    <gazebo reference="base_link">
+        <mu1>10.0</mu1>
+        <mu2>10.0</mu2>
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+
+
+    <!-- ////////////////////////// === WHEEL LINKS ==== //////////////////////////////////// -->
+<!--wheel 1--> top left            wheel 1  
+    <link name="wheel_link_1">
+        <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <cylinder length="${w_len}" radius="${w_rad}" />
+        </geometry>
+        </collision>
+
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <cylinder length="${w_len}" radius="${w_rad}" />
+        </geometry>
+        <material name="red"/>
+        </visual>
+
+        <inertial>
+            <mass value="1"/> This camera was estimated from the mass(weight) of a logitech camera = 0.25kg
+            <origin xyz="0 0 0" rpy="0 0 0"/> Inertia was calculated from the inertial calculator program
+            <inertia ixx="0.010208333333333335" ixy="0" ixz="0" iyy="0.010208333333333335" iyz="0" izz="0.020000000000000004" />
+        </inertial>
+    </link>
+
+    <gazebo reference="wheel_link_1">
+        <mu1>1.0</mu1> 
+        <mu2>1.0</mu2>
+        <kp>1000000.0</kp>
+        <kd>100.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>1.0</maxVel> 
+        <material>Gazebo/Red</material>
+    </gazebo>
+
+
+
+
+    
+<!--wheel 2--> top right            wheel 2  
+    <link name="wheel_link_2">
+        <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <cylinder length="${w_len}" radius="${w_rad}" />
+        </geometry>
+        </collision>
+
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <cylinder length="${w_len}" radius="${w_rad}" />
+        </geometry>
+        <material name="red"/>
+        </visual>
+        <inertial>
+            <mass value="1"/> This camera was estimated from the mass(weight) of a logitech camera = 0.25kg
+            <origin xyz="0 0 0" rpy="0 0 0"/> Inertia was calculated from the inertial calculator program
+            <inertia ixx="0.010208333333333335" ixy="0" ixz="0" iyy="0.010208333333333335" iyz="0" izz="0.020000000000000004" />
+        </inertial>
+    </link>
+
+    <gazebo reference="wheel_link_2">
+        <mu1>1.0</mu1> 
+        <mu2>1.0</mu2>
+        <kp>1000000.0</kp>
+        <kd>100.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>1.0</maxVel> <mu1>10.0</mu1>
+        <mu2>10.0</mu2>
+        <material>Gazebo/Red</material>
+    </gazebo>
+
+
+
+<!--wheel 3--> back right            wheel 3
+ <link name="wheel_link_3">
+        <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <cylinder length="${w_len}" radius="${w_rad}" />
+        </geometry>
+        </collision>
+
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <cylinder length="${w_len}" radius="${w_rad}" />
+        </geometry>
+        <material name="red"/>
+        </visual>
+        <inertial>
+            <mass value="1"/> This camera was estimated from the mass(weight) of a logitech camera = 0.25kg
+            <origin xyz="0 0 0" rpy="0 0 0"/> Inertia was calculated from the inertial calculator program
+            <inertia ixx="0.010208333333333335" ixy="0" ixz="0" iyy="0.010208333333333335" iyz="0" izz="0.020000000000000004" />
+        </inertial>
+    </link>
+
+    <gazebo reference="wheel_link_3">
+        <mu1>1.0</mu1> 
+        <mu2>1.0</mu2>
+        <kp>1000000.0</kp>
+        <kd>100.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>1.0</maxVel> 
+        <material>Gazebo/Red</material>
+    </gazebo>
+
+
+
+
+    <!--wheel 4--> back left            wheel 4
+ <link name="wheel_link_4">
+        <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <cylinder length="${w_len}" radius="${w_rad}" />
+        </geometry>
+        </collision>
+
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <cylinder length="${w_len}" radius="${w_rad}" />
+        </geometry>
+        <material name="red"/>
+        </visual>
+        <inertial>
+            <mass value="1"/> This camera was estimated from the mass(weight) of a logitech camera = 0.25kg
+            <origin xyz="0 0 0" rpy="0 0 0"/> Inertia was calculated from the inertial calculator program
+            <inertia ixx="0.010208333333333335" ixy="0" ixz="0" iyy="0.010208333333333335" iyz="0" izz="0.020000000000000004" />
+        </inertial>
+    </link>
+
+    <gazebo reference="wheel_link_4">
+
+        <mu1>1.0</mu1> 
+        <mu2>1.0</mu2>
+        <kp>1000000.0</kp>
+        <kd>100.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>1.0</maxVel> 
+        <material>Gazebo/Red</material>
+    </gazebo>
+
+
+
+
+
+
+
+    <!-- ////////////////////////// === CAMERA LINKS ==== //////////////////////////////////// -->
+ Change camera size to make more visible 0.5 0.5 0.5...original = 0.07 0.07 0.07
+    <!-- Camera top left-->              
+    <link name="cam_top_left">
+        <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <box size="${cam_box} ${cam_box} ${cam_box}"/>
+        </geometry>
+        </collision>
+
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <box size="${cam_box} ${cam_box} ${cam_box}"/>
+        </geometry>
+        <material name="blue"/>
+        </visual>
+
+        <inertial>
+            <mass value="0.25"/> This camera was estimated from the mass(weight) of a logitech camera = 0.25kg
+            <origin xyz="0 0 0" rpy="0 0 0"/> Inertia was calculated from the inertial calculator program
+            <inertia ixx="0.00020416666666666668" ixy="0" ixz="0" iyy="0.00020416666666666668" iyz="0" izz="0.00020416666666666668" />
+        </inertial>
+    </link>
+
+    <gazebo reference="cam_top_left">
+        <mu1>10.0</mu1>
+        <mu2>10.0</mu2>
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+
+
+    <!-- Camera top right-->              
+    <link name="cam_top_right">
+        <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <box size="${cam_box} ${cam_box} ${cam_box}"/>
+        </geometry>
+        </collision>
+
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <box size="${cam_box} ${cam_box} ${cam_box}"/>
+        </geometry>
+        <material name="grey"/>
+        </visual>
+
+        <inertial>
+            <mass value="0.25"/> This camera was estimated from the mass(weight) of a logitech camera = 0.25kg
+            <origin xyz="0 0 0" rpy="0 0 0"/> Inertia was calculated from the inertial calculator program
+            <inertia ixx="0.00020416666666666668" ixy="0" ixz="0" iyy="0.00020416666666666668" iyz="0" izz="0.00020416666666666668" />
+        </inertial>
+    </link>
+
+    <gazebo reference="cam_top_right">
+        <mu1>10.0</mu1>
+        <mu2>10.0</mu2>
+        <material>Gazebo/Red</material>
+    </gazebo>
+
+
+    <!-- Camera right-->              
+    <link name="cam_right">
+        <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <box size="${cam_box} ${cam_box} ${cam_box}"/>
+        </geometry>
+        </collision>
+
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <box size="${cam_box} ${cam_box} ${cam_box}"/>
+        </geometry>
+        <material name="red"/>
+        </visual>
+
+        <inertial>
+            <mass value="0.25"/> This camera was estimated from the mass(weight) of a logitech camera = 0.25kg
+            <origin xyz="0 0 0" rpy="0 0 0"/> Inertia was calculated from the inertial calculator program
+            <inertia ixx="0.00020416666666666668" ixy="0" ixz="0" iyy="0.00020416666666666668" iyz="0" izz="0.00020416666666666668" />
+        </inertial>
+    </link>
+
+    <gazebo reference="cam_right">
+        <mu1>10.0</mu1>
+        <mu2>10.0</mu2>
+        <material>Gazebo/Yellow</material>
+    </gazebo>
+
+
+
+    <!-- Camera back right-->              
+    <link name="cam_back_right">
+        <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <box size="${cam_box} ${cam_box} ${cam_box}"/>
+        </geometry>
+        </collision>
+
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <box size="${cam_box} ${cam_box} ${cam_box}"/>
+        </geometry>
+        <material name="red"/>
+        </visual>
+
+        <inertial>
+            <mass value="0.25"/> This camera was estimated from the mass(weight) of a logitech camera = 0.25kg
+            <origin xyz="0 0 0" rpy="0 0 0"/> Inertia was calculated from the inertial calculator program
+            <inertia ixx="0.00020416666666666668" ixy="0" ixz="0" iyy="0.00020416666666666668" iyz="0" izz="0.00020416666666666668" />
+        </inertial>
+    </link>
+
+    <gazebo reference="cam_back_right">
+        <mu1>10.0</mu1>
+        <mu2>10.0</mu2>
+        <material>Gazebo/Green</material>
+    </gazebo>
+
+
+    <!-- Camera back left-->              
+    <link name="cam_back_left">
+        <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <box size="${cam_box} ${cam_box} ${cam_box}"/>
+        </geometry>
+        </collision>
+
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <box size="${cam_box} ${cam_box} ${cam_box}"/>
+        </geometry>
+        <material name="red"/>
+        </visual>
+
+        <inertial>
+            <mass value="0.25"/> This camera was estimated from the mass(weight) of a logitech camera = 0.25kg
+            <origin xyz="0 0 0" rpy="0 0 0"/> Inertia was calculated from the inertial calculator program
+            <inertia ixx="0.00020416666666666668" ixy="0" ixz="0" iyy="0.00020416666666666668" iyz="0" izz="0.00020416666666666668" />
+        </inertial>
+    </link>
+
+    <gazebo reference="cam_back_left">
+        <mu1>10.0</mu1>
+        <mu2>10.0</mu2>
+        <material>Gazebo/White</material>
+    </gazebo>
+
+
+
+    <!-- Camera left-->              
+    <link name="cam_left">
+        <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <box size="${cam_box} ${cam_box} ${cam_box}"/>
+        </geometry>
+        </collision>
+
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <box size="${cam_box} ${cam_box} ${cam_box}"/>
+        </geometry>
+        <material name="red"/>
+        </visual>
+
+        <inertial>
+            <mass value="0.25"/> This camera was estimated from the mass(weight) of a logitech camera = 0.25kg
+            <origin xyz="0 0 0" rpy="0 0 0"/> Inertia was calculated from the inertial calculator program
+            <inertia ixx="0.00020416666666666668" ixy="0" ixz="0" iyy="0.00020416666666666668" iyz="0" izz="0.00020416666666666668" />
+        </inertial>
+    </link>
+
+    <gazebo reference="cam_left">
+        <mu1>10.0</mu1>
+        <mu2>10.0</mu2>
+        <material>Gazebo/Orange</material>
+    </gazebo>
+
+
+        <!-- ////////////////////////// === Joints ==== //////////////////////////////////// -->
+  I can spawn all the camera links at origin 0 0 0  but I use the joints to move them to the positions I want them in.
+
+     <!-- <joint name="world_joint" type="fixed">
+      <origin xyz="0 0 0.01" rpy="0 0 0" />
+      <parent link="world_link"/>
+      <child link="base_link" />
+    </joint> -->
+
+    <!-- joint = base_link to camera_link -->      camera 1
+    <joint name="camera_joint_top_left" type="fixed">
+        <origin xyz="${cam1_x} ${cam1_y} ${cam1_z}" rpy="-1.57 0 ${1*cam_rot}"/>    
+        <parent link="base_link"/>
+        <child link="cam_top_left"/>
+    </joint>
+
+    <!-- joint = base_link to camera_link -->       camera 2
+    <joint name="camera_joint_top_right" type="fixed">
+        <origin xyz="${cam2_x} ${cam2_y} ${cam2_z}" rpy="-1.57 0 ${-1*cam_rot}"/>   
+        <parent link="base_link"/>
+        <child link="cam_top_right"/>
+    </joint>
+ 
+     <!-- joint = base_link to camera_link -->       camera 3
+    <joint name="camera_joint_right" type="fixed">
+        <origin xyz="${cam3_x} ${cam3_y} ${cam3_z}" rpy="-1.57 0 -1.57"/>   
+        <parent link="base_link"/>
+        <child link="cam_right"/>
+    </joint>
+
+    <!-- joint = base_link to camera_link -->       camera 4
+    <joint name="camera_joint_back_right" type="fixed">
+        <origin xyz="${cam4_x} ${cam4_y} ${cam4_z}" rpy="-1.57 0 ${-1*cam_rot -1.57}"/>   
+        <parent link="base_link"/>
+        <child link="cam_back_right"/>
+    </joint>
+
+     <!-- joint = base_link to camera_link -->       camera 5
+    <joint name="camera_joint_back_left" type="fixed">
+        <origin xyz="${cam5_x} ${cam5_y} ${cam5_z}" rpy="-1.57 0 ${1*cam_rot+1.57}"/>                   
+        <parent link="base_link"/>
+        <child link="cam_back_left"/>
+    </joint>
+    
+    <!-- joint = base_link to camera_link -->       camera 6
+    <joint name="camera_joint_left" type="fixed">
+        <origin xyz="${cam6_x} ${cam6_y} ${cam6_z}" rpy="-1.57 0 1.57"/>   
+        <parent link="base_link"/>
+        <child link="cam_left"/>
+    </joint>
+
+
+
+    <!-- joint = base_link to wheel_1_link -->       wheel joint 1--top left
+    <joint name="wheel_1_joint" type="continuous">
+        <origin xyz="${cam1_x -0.16} ${cam1_y-0.5} ${-box_d*0.55}" rpy="0 -1.57  0"/>   
+        <parent link="base_link"/>
+        <child link="wheel_link_1"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+
+    <!-- joint = base_link to wheel_2_link -->       wheel joint 2  --top right
+    <joint name="wheel_2_joint" type="continuous">
+        <origin xyz="${cam2_y-1.32} ${cam2_y-0.5} ${-box_d*0.55}" rpy="0 -1.57  0"/>   
+        <parent link="base_link"/>
+        <child link="wheel_link_2"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <!-- joint = base_link to wheel_3_link -->       wheel joint 3  back right
+    <joint name="wheel_3_joint" type="continuous">
+        <origin xyz="${cam4_x+0.19} ${cam4_y+0.5} ${-box_d*0.55}" rpy="0 -1.57 0 "/>   
+        <parent link="base_link"/>
+        <child link="wheel_link_3"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+
+    <!-- joint = base_link to wheel_4_link -->       wheel joint 4   back left
+    <joint name="wheel_4_joint" type="continuous">
+        <origin xyz="${cam5_y+1.32} ${cam5_y+0.5} ${-box_d*0.55}" rpy="0 -1.57  0"/>   
+        <parent link="base_link"/>
+        <child link="wheel_link_4"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+
+
+    <transmission name="tran1">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="wheel_1_joint">
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor1">
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="tran2">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="wheel_2_joint">
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor2">
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+
+    <transmission name="tran3">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="wheel_3_joint">
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor3">
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="tran4">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="wheel_4_joint">
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor4">
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+</robot>
