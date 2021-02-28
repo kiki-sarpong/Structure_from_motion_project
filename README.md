@@ -21,7 +21,8 @@ Robot car model drives through a gazebo city model and maps a 3D pointcloud of t
 
 <br>
 
-Simple car model used due to scaling issues. The camera on the correctly scaled car doesn't match the city scale and features are hard to detect.<br>
-6 180 degree fisheye cameras..... 60 degrees apart<br>
+Simple car model used due to scaling issues.<br>
+The camera on the correctly scaled car doesn't match the city scale and features are hard to detect.<br>
+Six 180 degree fisheye cameras..... 60 degrees apart <br>
 ![car to robot scale](https://user-images.githubusercontent.com/17696533/109409977-fe980c00-7964-11eb-9c1e-4e1a96be4958.PNG)
 
