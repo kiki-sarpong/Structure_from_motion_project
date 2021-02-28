@@ -32,3 +32,7 @@ Six 180 degree fisheye cameras..... 60 degrees apart <br>
 
 # RESULTS
 Map before bundle adjustment.<br>
+![image](https://user-images.githubusercontent.com/17696533/109410598-f393aa80-7969-11eb-9e17-081a873e8864.png)
+
+<br>
+Map after bundle adjustment. <br>
