@@ -19,7 +19,9 @@ https://drive.google.com/file/d/1-qPUwkg_6AtzXwxWl2v5JOYI7UqGpA7P/view?usp=shari
 Robot car model drives through a gazebo city model and maps a 3D pointcloud of the environment.
 ![feature_problem](https://user-images.githubusercontent.com/17696533/109409814-ba583c00-7963-11eb-9385-cb7c55848e75.PNG)
 
-<br><br>
+<br>
 
-Simple car model used due to scaling issues. The camera on the correctly scaled car doesn't match the city scale and features are hard to detect.
+Simple car model used due to scaling issues. The camera on the correctly scaled car doesn't match the city scale and features are hard to detect.<br>
+6 180 degree fisheye cameras..... 60 degrees apart<br>
+![car to robot scale](https://user-images.githubusercontent.com/17696533/109409977-fe980c00-7964-11eb-9c1e-4e1a96be4958.PNG)
 
